@@ -27,8 +27,12 @@
 </template>
 
 <script>
+import {mapMutations} from 'vuex'
 export default {
     layout: 'empty',
+    head: {
+      title: 'Welcome to nuxt chat'
+    },
     sockets: {
         connect: function () {
             console.log("socket connected");
@@ -47,12 +51,16 @@ export default {
     }),
 
     methods: {
-        async submit() {
-            const {
-                valid
-            } = await this.$refs.form.validate()
-
-            if (valid) alert('Form is valid')
+      ...mapMutations(['setUser']),
+      submit() {
+        if(this.$refs.form.validate()) {
+          const user = {
+            name: this.name,
+            room: this.room
+          };
+          this.setUser(user);
+          this.$router.push('/chat')
+        }
         },
     },
 }
