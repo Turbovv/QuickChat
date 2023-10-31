@@ -1,6 +1,6 @@
 <template>
 <v-app app dark>
-    <v-navigation-drawer app v-model="drawer">
+    <v-navigation-drawer app v-model="drawer" mobile-break-point="650">
         <v-list subheader>
             <v-subheader>Recent Chat</v-subheader>
             <v-list-tile v-for="u in users" :key="u.id"  @click.prevent>
@@ -22,7 +22,7 @@
         <v-toolbar-title>Chat Room {{ user.room }}</v-toolbar-title>
     </v-toolbar>
     <v-content>
-        <div>
+        <div style="height: 100%">
             <nuxt />
         </div>
     </v-content>
