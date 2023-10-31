@@ -27,11 +27,13 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+import {
+    mapMutations
+} from 'vuex'
 export default {
     layout: 'empty',
     head: {
-      title: 'Welcome to nuxt chat'
+        title: 'Welcome to nuxt chat'
     },
     sockets: {
         connect: function () {
@@ -51,16 +53,25 @@ export default {
     }),
 
     methods: {
-      ...mapMutations(['setUser']),
-      submit() {
-        if(this.$refs.form.validate()) {
-          const user = {
-            name: this.name,
-            room: this.room
-          };
-          this.setUser(user);
-          this.$router.push('/chat')
-        }
+        ...mapMutations(['setUser']),
+        submit() {
+            if (this.$refs.form.validate()) {
+                const user = {
+                    name: this.name,
+                    room: this.room
+                };
+
+                this.$socket.emit('userJoined', user, data => {
+                if (typeof data === 'string') {
+                    console.error(data)
+                } else {
+                    user.id = data.userId
+                    this.setUser(user);
+                    this.$router.push('/chat')
+                }
+                })
+
+            }
         },
     },
 }
