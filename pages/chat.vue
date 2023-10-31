@@ -10,11 +10,9 @@
 </template>
 
 <script>
-import {
-    mapState
-} from 'vuex'
-import Message from '../components/Message.vue'
-import ChatForm from '../components/ChatForm.vue'
+import { mapState } from 'vuex'
+import Message from '@/components/Message'
+import ChatForm from '@/components/ChatForm'
 export default {
     middleware: ['chat'],
     head() {
@@ -22,47 +20,40 @@ export default {
             title: `Room Id ${this.user.room}`
         }
     },
+    components: { Message, ChatForm},
     computed: mapState(["user", "messages"]),
     watch: {
-        messages() {
-            setTimeout(() => {
-                this.$refs.block.scrollTop = this.$refs.block.scrollHeight;
-            })
-        }
-    },
-    components: {
-        Message,
-        ChatForm
+    messages() {
+      setTimeout(() => {
+        this.$refs.block.scrollTop = this.$refs.block.scrollHeight;
+      });
     }
+  }
 }
 </script>
 
 <style scoped>
 .c-wrap {
-    .c-wrap {
-        height: 100%;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .c-form {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 1rem;
-        height: 80px;
-        background: #212121;
-    }
-
-    .c-chat {
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 80px;
-        padding: 1rem;
-        overflow-y: auto;
-    }
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.c-form {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  height: 80px;
+  background: #212121;
+}
+.c-chat {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 80px;
+  padding: 1rem;
+  overflow-y: auto;
 }
 </style>
