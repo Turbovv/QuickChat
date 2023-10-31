@@ -3,13 +3,13 @@
     <v-navigation-drawer app v-model="drawer" mobile-break-point="650">
         <v-list subheader>
             <v-subheader>Recent Chat</v-subheader>
-            <v-list-tile v-for="u in users" :key="u.id"  @click.prevent>
+            <v-list-tile v-for="u in users" :key="u.id" @click.prevent>
                 <v-list-tile-content>
                     <v-list-tile-title>{{ u.name }}</v-list-tile-title>
                 </v-list-tile-content>
 
                 <v-list-tile-action>
-                    <v-icon :color="u.id === 2 ? 'primary' : 'grey'">chat_bubble</v-icon>
+                    <v-icon :color="u.id === user.id ? 'primary' : 'grey'">chat_bubble</v-icon>
                 </v-list-tile-action>
             </v-list-tile>
         </v-list>
@@ -30,24 +30,21 @@
 </template>
 
 <script>
-import {mapState, mapMutations} from 'vuex'
+import { mapState, mapMutations} from 'vuex'
 export default {
     data() {
         return {
-            drawer: true,
-            users: [
-              {id:1, name: 'User 1'},
-              {id:2, name: 'User 2'}
-            ]
+            drawer: false,
         }
     },
-    computed: mapState(['user']),
+    computed: mapState(["user", "users"]),
     methods: {
-      ...mapMutations(['clearData']),
+        ...mapMutations(['clearData']),
         exit() {
-          this.$router.push('/?message=leftChat')
-          this.clearData();
-
+            this.$socket.emit('userLeft', this.user.id, () => {
+                this.$router.push('/?message=leftChat')
+                this.clearData();
+            })
         }
     }
 };
