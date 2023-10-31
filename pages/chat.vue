@@ -3,7 +3,9 @@
     <div class="c-chat">
         <Message v-for="m in messages" :key="m.text" :name="m.name" :text="m.text" owner />
     </div>
-    <div class="c-form"></div>
+    <div class="c-form">
+        <ChatForm />
+    </div>
 </div>
 </template>
 
@@ -12,6 +14,7 @@ import {
     mapState
 } from 'vuex'
 import Message from '../components/Message.vue'
+import ChatForm from '../components/ChatForm.vue'
 export default {
     middleware: ['chat'],
     head() {
@@ -21,7 +24,8 @@ export default {
     },
     computed: mapState(["user", "messages"]),
     components: {
-        Message
+        Message,
+        ChatForm
     }
 }
 </script>
